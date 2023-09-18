@@ -100,6 +100,10 @@ object TestUtils {
       false,
       443
     ),
+    networking = Networking(
+      1024,
+      610.seconds
+    ),
     enableDefaultRedirect = false,
     redirectDomains       = Set.empty[String],
     preTerminationPeriod  = 10.seconds

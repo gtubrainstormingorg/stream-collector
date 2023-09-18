@@ -24,6 +24,7 @@ case class Config[+SinkConfig](
   streams: Config.Streams[SinkConfig],
   monitoring: Config.Monitoring,
   ssl: Config.SSL,
+  networking: Config.Networking,
   enableDefaultRedirect: Boolean,
   redirectDomains: Set[String],
   preTerminationPeriod: FiniteDuration
@@ -122,6 +123,11 @@ object Config {
     port: Int
   )
 
+  case class Networking(
+    maxConnections: Int,
+    idleTimeout: FiniteDuration
+  )
+
   implicit def decoder[SinkConfig: Decoder]: Decoder[Config[SinkConfig]] = {
     implicit val p3p         = deriveDecoder[P3P]
     implicit val crossDomain = deriveDecoder[CrossDomain]
@@ -147,6 +153,7 @@ object Config {
     implicit val metrics          = deriveDecoder[Metrics]
     implicit val monitoring       = deriveDecoder[Monitoring]
     implicit val ssl              = deriveDecoder[SSL]
+    implicit val networking       = deriveDecoder[Networking]
     deriveDecoder[Config[SinkConfig]]
   }
 
