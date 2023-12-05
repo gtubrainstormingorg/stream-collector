@@ -94,7 +94,7 @@ class Routes[F[_]: Sync](
 
   val value: HttpApp[F] = {
     val routes = healthRoutes <+> corsRoute <+> cookieRoutes <+> rootRoute <+> crossdomainRoute
-    val res    = if (enableDefaultRedirect) routes else rejectRedirect <+> routes
+    val res    = if (enableDefaultRedirect) GUnzipMiddleware(routes) else rejectRedirect <+> routes
     res.orNotFound
   }
 }
